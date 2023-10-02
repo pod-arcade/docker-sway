@@ -66,7 +66,7 @@ When working with `DRI_DEVICE_MODE = NODE`, you need to have the capability `CAP
 
 When working with `DRI_DEVICE_MODE = GROUP`, no special permissions are required. This method will not work well unless all applications are running inside this container. If you're mounting these devices in a variety of containers, those containers won't receive permissions to access the GPUs.
 
-## Required Environment Variables
+## Environment Variables
 
 ```sh
 # Configure how hardware acceleration is set up.

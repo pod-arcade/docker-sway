@@ -10,7 +10,9 @@ RUN apt-get update && \
     xwayland \
     xauth \
     x11-xserver-utils \
+    libpixman-1-dev \
     wayvnc \
+    novnc \
     pulseaudio \
     ffmpeg \
     wf-recorder \

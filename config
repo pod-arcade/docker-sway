@@ -1,5 +1,0 @@
-default_border pixel 0
-output HEADLESS-1 pos 0 0 res 1280x720
-output HEADLESS-1 bg /etc/sway/background.png fill
-exec pulseaudio -v --log-level=1
-exec /wait-for-pulse.sh && wayvnc 0.0.0.0 5900

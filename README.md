@@ -44,10 +44,11 @@ docker run --rm \
  ghcr.io/pod-arcade/sway
 ```
 
-## Required Mount Points
+## Required Mount Points for hardware aceleration
+
+**Alternatively, configure the mount points with this environment variable.**
 
 ```sh
-# Alternatively, configure the mount points with this environment variable.
 DEV_DRI_PATH="/dev/dri/"
 HOSTDEV_DRI_PATH="/dev/host-dri/"
 # Note that this does not change where applications look for hardware devices.

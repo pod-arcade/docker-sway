@@ -33,10 +33,8 @@ ENV WLR_XWAYLAND=/etc/sway/Xwayland
 COPY pulseaudio/* /etc/pulse/
 COPY wait-for-pulse.sh /
 
-# Copy Sway Config
-COPY config /etc/sway/config
-
 # Add entrypoint
+ADD scripts /scripts
 ADD entrypoint.sh /entrypoint.sh
 
 USER root

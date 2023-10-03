@@ -21,13 +21,8 @@ RUN apt-get update && \
     libgles2-mesa \ 
     libegl1 \ 
     libgl1-mesa-dri \
-    && \
-    rm -rf /var/lib/apt/lists/*
-
-# Install RetroArch
-RUN apt-get update && \
-    apt-get install -y dbus-x11 && \
-    rm -rf /var/lib/apt/lists/*
+    dbus-x11 \
+    && rm -rf /var/lib/apt/lists/*
 
 # Run RetroArch
 CMD ["retroarch"]

@@ -1,3 +1,6 @@
+# This example didn't have much effort put into it. If you're running retroarch, you should probably
+# Be using graphics acceleration. Don't use pixman to render it unless you hate your CPU.
+
 version: "3"
 
 services:
@@ -33,6 +36,7 @@ services:
       - shared_pulse:/tmp/pulse
       - shared_sway:/tmp/sway
       - shared_x11:/tmp/.X11-unix
+    user: "1000"
     command:
       - "sh"
       - "-c"

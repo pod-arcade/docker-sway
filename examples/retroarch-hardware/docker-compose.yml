@@ -25,6 +25,14 @@ services:
       - /dev/dri:/dev/host-dri
   retroarch:
     build: ./
+
+    # This image is a fantastic image put together by the crew at 
+    # Games On Whales. I'd strongly recommend this over building your own.
+    # It also includes things such as waiting for the Sway server to be available,
+    # rather than the dumb sleep command. Seriously, use this. It's great.
+
+    # image: gameonwhales/retroarch:edge
+    
     restart: on-failure
     links:
       - sway

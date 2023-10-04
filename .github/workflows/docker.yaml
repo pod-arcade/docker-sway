@@ -6,6 +6,9 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: pod-arcade/sway
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   docker-build:

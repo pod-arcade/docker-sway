@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  sway:
+    image: ghcr.io/pod-arcade/sway
+    environment:
+      - DISABLE_HW_ACCEL=true
+      - WLR_RENDERER=pixman
+      - WLR_BACKENDS=headless
+      - RESOLUTION=1920x1080
+    ports:
+      - "6900:5900"
+      - "7900:7900"
+    privileged: true
+    volumes:
+      - shared_pulse:/tmp/pulse
+      - shared_sway:/tmp/sway
+      - shared_x11:/tmp/.X11-unix
+
+  xeyes:
+    build: ./
+    restart: on-failure
+    links:
+      - sway
+    depends_on:
+      - sway
+    environment:
+      - WAYLAND_DISPLAY=wayland-1
+      - DISPLAY=:0
+      - XDG_RUNTIME_DIR=/tmp/sway
+      - PULSE_SERVER=unix:/tmp/pulse
+    volumes:
+      - shared_pulse:/tmp/pulse
+      - shared_sway:/tmp/sway
+      - shared_x11:/tmp/.X11-unix
+    entrypoint:
+      - "sh"
+      - "-c"
+      - "sleep 5 && xeyes"
+volumes:
+  shared_pulse:
+  shared_sway:
+  shared_x11:

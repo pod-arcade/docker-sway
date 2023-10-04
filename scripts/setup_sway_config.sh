@@ -8,6 +8,10 @@ get_sway_config() {
   exec pulseaudio -v --log-level=1
   exec /wait-for-pulse.sh && wayvnc 0.0.0.0 5900
   """
+  if [ -n "$EXTRA_SWAY_COMMANDS" ]
+  then
+  echo "exec /wait-for-pulse.sh && $EXTRA_SWAY_COMMANDS"
+  fi
   if [ -n "$*" ]
   then
   echo "exec /wait-for-pulse.sh && $*"

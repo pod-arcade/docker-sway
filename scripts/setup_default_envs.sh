@@ -29,3 +29,5 @@ export WLR_RENDERER="${WLR_RENDERER:-"gles2"}"
 # Necessary for docker
 export WLR_BACKENDS="${WLR_BACKENDS:-"headless"}"
 
+# Default the resolution
+export RESOLUTION="${RESOLUTION:-"1280x720"}"

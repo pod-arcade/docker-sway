@@ -4,6 +4,7 @@
 # NODE — automatically regenerates device nodes using mknod
 # GROUP — Adds user 1000 to the existing group mounted in.
 export DRI_DEVICE_MODE="${DRI_DEVICE_MODE:-"NONE"}"
+export UINPUT_DEVICE_MODE="${UINPUT_DEVICE_MODE:-"NONE"}"
 
 # Enable or disable hardware acceleration
 export DISABLE_HW_ACCEL="${DISABLE_HW_ACCEL:-"true"}"
@@ -12,6 +13,9 @@ export FFMPEG_HARDWARE="${FFMPEG_HARDWARE:-"1"}"
 
 export DEV_DRI_PATH="${DEV_DRI_PATH:-"/dev/dri/"}"
 export HOSTDEV_DRI_PATH="${HOSTDEV_DRI_PATH:-"/dev/host-dri/"}"
+
+export DEV_UINPUT_PATH="${DEV_UINPUT_PATH:-"/dev/uinput"}"
+export HOSTDEV_UINPUT_PATH="${HOSTDEV_UINPUT_PATH:-"/dev/host-uinput"}"
 
 # Configure Displays and Audio for guest applications
 export WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-"wayland-1"}"

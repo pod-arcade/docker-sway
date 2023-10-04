@@ -1,5 +1,16 @@
 #!/bin/sh
 
+add_uinput_to_group_if_exists() {
+  device="$DEV_UINPUT_PATH"
+  if [ -e "$device" ]; then
+    gid=$(stat -c '%g' "$device")
+    groupadd --gid $gid temp_group_$gid
+    usermod -a -G temp_group_$gid ubuntu
+  else
+    echo "Warning: $device does not exist. Skipping uinput ADD_GROUP operations."
+  fi
+}
+
 add_to_group_if_exists() {
   if [ -e "$1" ]; then
     gid=$(stat -c '%g' "$1")

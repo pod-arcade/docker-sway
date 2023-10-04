@@ -1,5 +1,22 @@
 #!/bin/sh
 
+recreate_uinput_dev_node_if_exists() {
+  target_path="${HOSTDEV_UINPUT_PATH}"
+  node_path="${DEV_UINPUT_PATH}"
+
+  if [ -e "$target_path" ]; then
+    major=$(stat -c '%t' "$target_path")
+    minor=$(stat -c '%T' "$target_path")
+    major_dec=$(printf "%d" "0x$major")
+    minor_dec=$(printf "%d" "0x$minor")
+    rm -f "$node_path"
+    mknod "$node_path" c $major_dec $minor_dec
+    chmod 777 "$node_path"
+  else
+    echo "Warning: $target_path does not exist. Skipping uinput MKNOD operations."
+  fi
+}
+
 recreate_dev_node_if_exists() {
   target_path="${HOSTDEV_DRI_PATH}$1"
   node_path="${DEV_DRI_PATH}$1"
@@ -12,6 +29,8 @@ recreate_dev_node_if_exists() {
     rm -f "$node_path"
     mknod "$node_path" c $major_dec $minor_dec
     chmod 777 "$node_path"
+  else
+    echo "Warning: $HOSTDEV_DRI_PATH does not exist. Skipping uinput MKNOD operations."
   fi
 }
 

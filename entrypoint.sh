@@ -20,8 +20,10 @@ setup_dbus
 
 get_sway_config "$@" >/etc/sway/config
 
+# This is a little hacky, but it lets us run other commands as root.
+# We use this for running the desktop
 if [ -n "$EXTRA_COMMANDS" ]; then
-eval "$EXTRA_COMMANDS"
+eval "{ su ubuntu /wait-for-pulse.sh; $EXTRA_COMMANDS; } &"
 fi
 
 su -c "dbus-run-session /usr/bin/sway" ubuntu

@@ -20,4 +20,8 @@ setup_dbus
 
 get_sway_config "$@" >/etc/sway/config
 
+if [ -n "$EXTRA_COMMANDS" ]; then
+eval "$EXTRA_COMMANDS"
+fi
+
 su -c "dbus-run-session /usr/bin/sway" ubuntu

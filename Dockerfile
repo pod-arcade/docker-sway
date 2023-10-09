@@ -15,6 +15,7 @@ RUN apt-get update && \
     novnc \
     pulseaudio \
     ffmpeg \
+    ca-certificates \
     wf-recorder \
     wget && \
     rm -rf /var/lib/apt/lists/*

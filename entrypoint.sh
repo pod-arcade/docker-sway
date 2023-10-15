@@ -29,7 +29,7 @@ if [ -n "$EXTRA_COMMANDS" ]; then
   eval "{ su ubuntu /wait-for-pulse.sh; $EXTRA_COMMANDS; } &"
 fi
 
-if [ -n "$SWAY_DEBUG" ]; then
+if [ "$SWAY_DEBUG" = "true" ]; then
   su -c "dbus-run-session /usr/bin/sway --debug --verbose" ubuntu
 else
   su -c "dbus-run-session /usr/bin/sway" ubuntu

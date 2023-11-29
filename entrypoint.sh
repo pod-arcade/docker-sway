@@ -23,14 +23,22 @@ setup_dbus
 
 get_sway_config "$@" >/etc/sway/config
 
+SWAY_LOG_PATH="/var/log/pa-sway.log"
+EXTRA_COMMANDS_LOG_PATH="/var/log/pa-extra-commands.log"
+
+touch $SWAY_LOG_PATH
+touch $EXTRA_COMMANDS_LOG_PATH
+
+tail -f $EXTRA_COMMANDS_LOG_PATH $SWAY_LOG_PATH &
+
 # This is a little hacky, but it lets us run other commands as root.
 # We use this for running the desktop
 if [ -n "$EXTRA_COMMANDS" ]; then
-  eval "{ su ubuntu /wait-for-pulse.sh; $EXTRA_COMMANDS; } &"
+  eval "{ su ubuntu /wait-for-pulse.sh; $EXTRA_COMMANDS; } &" >>"$EXTRA_COMMANDS_LOG_PATH" 2>&1
 fi
 
 if [ "$SWAY_DEBUG" = "true" ]; then
-  su -c "dbus-run-session /usr/bin/sway --debug --verbose" ubuntu
+  su -c "dbus-run-session /usr/bin/sway --debug --verbose" ubuntu >>"$SWAY_LOG_PATH" 2>&1
 else
-  su -c "dbus-run-session /usr/bin/sway" ubuntu
+  su -c "dbus-run-session /usr/bin/sway" ubuntu >>"$SWAY_LOG_PATH" 2>&1
 fi

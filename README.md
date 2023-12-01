@@ -1,95 +1,58 @@
-# sway
+# Sway on Pod-Arcade
 
 ## Usage
 
-### With Hardware Acceleration
+The Pod-Arcade Sway container can be accessed via VNC using port 6900:5900. For web access, port-forward 7900:7900 to use noVNC. When using this with pod-arcade, this port isn't needed, as you'll access it through the `pod-arcade/server` webpage.
+
+### Running with Hardware Acceleration
+
+Use this command to run the container with hardware acceleration. It requires mounting the `/dev/dri` directory to `/dev/host-dri` in the container.
+
 ```shell
 docker run --rm \
  -it \
  --name "pod-arcade-sway" \
- -e DRI_DEVICE_MODE="NODE" \
- -e DISABLE_HW_ACCEL="false" \
- -e WAYLAND_DISPLAY="wayland-1" \
- -e DISPLAY=":0" \
- -e XDG_RUNTIME_DIR="/tmp/sway" \
- -e PULSE_SERVER="unix:/tmp/pulse/pulse-socket" \
- -e WLR_NO_HARDWARE_CURSORS="1" \
- -e WLR_XWAYLAND="/etc/sway/Xwayland" \
- -e WLR_RENDERER="gles2" \
- -e WLR_BACKENDS="headless" \
- -e FFMPEG_HARDWARE="1" \
- -p 6900:5900 \
+ --privileged \
  -v /dev/dri:/dev/host-dri \
- --privileged \
+ -p 6900:5900 \
  ghcr.io/pod-arcade/sway
 ```
 
-### Without Acceleration
+### Running Without Hardware Acceleration
+
+Use this command to run the container without hardware acceleration.
+
 ```shell
 docker run --rm \
  -it \
  --name "pod-arcade-sway" \
- -e DISABLE_HW_ACCEL="true" \
- -e WAYLAND_DISPLAY="wayland-1" \
- -e DISPLAY=":0" \
- -e XDG_RUNTIME_DIR="/tmp/sway" \
- -e PULSE_SERVER="unix:/tmp/pulse/pulse-socket" \
- -e WLR_NO_HARDWARE_CURSORS="1" \
- -e WLR_XWAYLAND="/etc/sway/Xwayland" \
- -e WLR_RENDERER="pixman" \
- -e WLR_BACKENDS="headless" \
- -e FFMPEG_HARDWARE="0" \
- -p 6900:5900 \
  --privileged \
+ -p 6900:5900 \
  ghcr.io/pod-arcade/sway
 ```
 
-## Required Mount Points for hardware aceleration
+## Hardware Acceleration Configuration
 
-**Alternatively, configure the mount points with this environment variable.**
+The container's behavior for hardware acceleration depends on the mounted volumes:
 
-```sh
-DEV_DRI_PATH="/dev/dri/"
-HOSTDEV_DRI_PATH="/dev/host-dri/"
-# Note that this does not change where applications look for hardware devices.
-```
+### MKNOD Mode
 
-### DRI_DEVICE_MODE = NODE
+- Mount Path: /dev/dri -> /dev/host-dri/
+- Requires CAP_MKNOD capability.
+- Best for high compatibility and shared mount paths.
+- Recreates device nodes inside the container with 777 permissions.
 
-- `/dev/dri` -> `/dev/host-dri/`
+### GROUP Mode
 
-When working with `DRI_DEVICE_MODE = NODE`, you need to have the capability `CAP_MKNOD`. This method has the highest compatibility, without changing the permissions for the GPU on the host.
-
-### DRI_DEVICE_MODE = GROUP
-
-- `/dev/dri` -> `/dev/dri/`
-
-When working with `DRI_DEVICE_MODE = GROUP`, no special permissions are required. This method will not work well unless all applications are running inside this container. If you're mounting these devices in a variety of containers, those containers won't receive permissions to access the GPUs.
+- Mount Path: /dev/dri -> /dev/dri/
+- No special permissions needed.
+- Creates new groups inside the container with the same GID as the host, and adds the ubuntu user to them.
+- Suitable for single-container setups.
+- Not ideal for multi-container environments with shared GPU access.
 
 ## Environment Variables
+Set custom resolutions for the container (default is 1280x720):
 
 ```sh
-# Configure how hardware acceleration is set up.
-# NODE — automatically regenerates device nodes using mknod
-# GROUP — Adds user 1000 to the existing group mounted in.
-export DRI_DEVICE_MODE=NODE
-
-# Enable or disable hardware acceleration
-export DISABLE_HW_ACCEL="false"
-
-
-# Configure Displays and Audio for guest applications
-export WAYLAND_DISPLAY=wayland-1
-export DISPLAY=:0
-export XDG_RUNTIME_DIR=/tmp/sway
-export PULSE_SERVER=unix:/tmp/pulse/pulse-socket
-
-# Configure Wayland Roots Flags
-export WLR_NO_HARDWARE_CURSORS=1
-export WLR_XWAYLAND=/etc/sway/Xwayland # Configure Xwayland for X11 apps
-export WLR_RENDERER=gles2       # Vulkan didn't work for us
-export WLR_BACKENDS=headless    # Necessary for docker
-
-# Tell FFMPEG to use Hardware Acceleration
-export FFMPEG_HARDWARE=1
+export RESOLUTION="1280x720"
 ```

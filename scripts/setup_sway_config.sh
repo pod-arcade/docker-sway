@@ -10,10 +10,10 @@ get_sway_config() {
   """
   if [ -n "$EXTRA_SWAY_COMMANDS" ]
   then
-  echo "exec /wait-for-pulse.sh && watch -n 1 $EXTRA_SWAY_COMMANDS"
+  echo "exec /wait-for-pulse.sh && $EXTRA_SWAY_COMMANDS"
   fi
   if [ -n "$*" ]
   then
-  echo "exec /wait-for-pulse.sh && watch -n 1 $*"
+  echo "exec /wait-for-pulse.sh && $*"
   fi
 }

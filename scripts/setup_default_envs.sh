@@ -29,9 +29,9 @@ if [ -d /dev/host-dri ]; then
   export DRI_DEVICE_MODE="${DRI_DEVICE_MODE:-"MKNOD"}"
   export DISABLE_HW_ACCEL="${DISABLE_HW_ACCEL:-"false"}"
   export FFMPEG_HARDWARE="${FFMPEG_HARDWARE:-"1"}"
-elif [ -d /dev/dri ]; then
+elif [ -d /dev/dri ] && [ -z "$(ls -A /dev/dri)" ]; then
   # We have hardware acceleration, we just need to add permissions
-  export DRI_DEVICE_MODE="${DRI_DEVICE_MODE:-"GROUP"}"
+  export DRI_DEVICE_MODE="${DRI_DEVICE_MODE:-"ADD_GROUP"}"
   export DISABLE_HW_ACCEL="${DISABLE_HW_ACCEL:-"false"}"
   export FFMPEG_HARDWARE="${FFMPEG_HARDWARE:-"1"}"
 else
@@ -61,7 +61,7 @@ if [ -e /dev/host-uinput ]; then
   export UINPUT_DEVICE_MODE="${UINPUT_DEVICE_MODE:-"MKNOD"}"
 elif [ -e /dev/uinput ]; then
   # We can create gamepads, we just need to add permissions
-  export UINPUT_DEVICE_MODE="${UINPUT_DEVICE_MODE:-"GROUP"}"
+  export UINPUT_DEVICE_MODE="${UINPUT_DEVICE_MODE:-"ADD_GROUP"}"
 else
   # We do not have gamepad support. We should default disable it.
   export UINPUT_DEVICE_MODE="${UINPUT_DEVICE_MODE:-"NONE"}"

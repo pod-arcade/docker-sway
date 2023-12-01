@@ -42,7 +42,7 @@ The container's behavior for hardware acceleration depends on the mounted volume
 - Best for high compatibility and shared mount paths.
 - Recreates device nodes inside the container with 777 permissions.
 
-### GROUP Mode
+### ADD_GROUP Mode
 
 - Mount Path: /dev/dri -> /dev/dri/
 - No special permissions needed.

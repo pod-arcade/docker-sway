@@ -22,9 +22,9 @@ export RESOLUTION="${RESOLUTION:-"1280x720"}"
 
 # Configure hardware device paths
 export DEV_DRI_PATH="${DEV_DRI_PATH:-"/dev/dri/"}"
-export HOSTDEV_DRI_PATH="${HOSTDEV_DRI_PATH:-"/dev/host-dri/"}"
+export HOSTDEV_DRI_PATH="${HOSTDEV_DRI_PATH:-"/host/dev/dri/"}"
 
-if [ -d /dev/host-dri ]; then
+if [ -d "$HOSTDEV_DRI_PATH" ]; then
   # We have hardware acceleration, we just need to make the nodes
   export DRI_DEVICE_MODE="${DRI_DEVICE_MODE:-"MKNOD"}"
   export DISABLE_HW_ACCEL="${DISABLE_HW_ACCEL:-"false"}"
@@ -57,9 +57,9 @@ fi
 
 # Configure uinput paths
 export DEV_UINPUT_PATH="${DEV_UINPUT_PATH:-"/dev/uinput"}"
-export HOSTDEV_UINPUT_PATH="${HOSTDEV_UINPUT_PATH:-"/dev/host-uinput"}"
+export HOSTDEV_UINPUT_PATH="${HOSTDEV_UINPUT_PATH:-"/host/dev/uinput"}"
 
-if [ -e /dev/host-uinput ]; then
+if [ -e "$HOSTDEV_UINPUT_PATH" ]; then
   # We can create gamepads, we just need to make the nodes
   export UINPUT_DEVICE_MODE="${UINPUT_DEVICE_MODE:-"MKNOD"}"
 ## This is the same problem as above with the GPU. We need to remove this if the user is running

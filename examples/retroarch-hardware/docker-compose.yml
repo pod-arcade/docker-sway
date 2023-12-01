@@ -22,7 +22,7 @@ services:
       - shared_sway:/tmp/sway
       - shared_x11:/tmp/.X11-unix
       - shared_dri:/dev/dri
-      - /dev/dri:/dev/host-dri
+      - /dev/dri:/host/dev/dri
   retroarch:
     build: ./
 

@@ -6,14 +6,14 @@ The Pod-Arcade Sway container can be accessed via VNC using port 6900:5900. For 
 
 ### Running with Hardware Acceleration
 
-Use this command to run the container with hardware acceleration. It requires mounting the `/dev/dri` directory to `/dev/host-dri` in the container.
+Use this command to run the container with hardware acceleration. It requires mounting the `/dev/dri` directory to `/host/dev/dri` in the container.
 
 ```shell
 docker run --rm \
  -it \
  --name "pod-arcade-sway" \
  --privileged \
- -v /dev/dri:/dev/host-dri \
+ -v /dev/dri:/host/dev/dri \
  -p 6900:5900 \
  ghcr.io/pod-arcade/sway
 ```
@@ -37,7 +37,7 @@ The container's behavior for hardware acceleration depends on the mounted volume
 
 ### MKNOD Mode
 
-- Mount Path: /dev/dri -> /dev/host-dri/
+- Mount Path: /dev/dri -> /host/dev/dri/
 - Requires CAP_MKNOD capability.
 - Best for high compatibility and shared mount paths.
 - Recreates device nodes inside the container with 777 permissions.

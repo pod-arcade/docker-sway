@@ -43,7 +43,7 @@ The container's behavior for hardware acceleration depends on the mounted volume
 - Recreates device nodes inside the container with 777 permissions.
 
 ### ADD_GROUP Mode
-
+***NOTE: If you're using the ADD_GROUP mode, you must specifically set `DRI_DEVICE_MODE=ADD_GROUP`. This is to prevent accidentally enabling hardware acceleration when none was requested. When running docker in privileged mode, it automatically mounts the GPU device into the container.***
 - Mount Path: /dev/dri -> /dev/dri/
 - No special permissions needed.
 - Creates new groups inside the container with the same GID as the host, and adds the ubuntu user to them.

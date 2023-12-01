@@ -29,11 +29,14 @@ if [ -d /dev/host-dri ]; then
   export DRI_DEVICE_MODE="${DRI_DEVICE_MODE:-"MKNOD"}"
   export DISABLE_HW_ACCEL="${DISABLE_HW_ACCEL:-"false"}"
   export FFMPEG_HARDWARE="${FFMPEG_HARDWARE:-"1"}"
-elif [ -d /dev/dri ] && [ -z "$(ls -A /dev/dri)" ]; then
-  # We have hardware acceleration, we just need to add permissions
-  export DRI_DEVICE_MODE="${DRI_DEVICE_MODE:-"ADD_GROUP"}"
-  export DISABLE_HW_ACCEL="${DISABLE_HW_ACCEL:-"false"}"
-  export FFMPEG_HARDWARE="${FFMPEG_HARDWARE:-"1"}"
+## This is hard to do, because docker actually mounts the host dri into the container
+## when running in privileged mode.... we actually want to remove this if the user
+## is running in privileged mode and didn't specifically request hardware support.
+# elif [ -d /dev/dri ] && [ -z "$(ls -A /dev/dri)" ]; then
+#   # We have hardware acceleration, we just need to add permissions
+#   export DRI_DEVICE_MODE="${DRI_DEVICE_MODE:-"ADD_GROUP"}"
+#   export DISABLE_HW_ACCEL="${DISABLE_HW_ACCEL:-"false"}"
+#   export FFMPEG_HARDWARE="${FFMPEG_HARDWARE:-"1"}"
 else
   # We do not have hardware acceleration. We should default disable it.
   export DRI_DEVICE_MODE="${DRI_DEVICE_MODE:-"NONE"}"
@@ -59,9 +62,11 @@ export HOSTDEV_UINPUT_PATH="${HOSTDEV_UINPUT_PATH:-"/dev/host-uinput"}"
 if [ -e /dev/host-uinput ]; then
   # We can create gamepads, we just need to make the nodes
   export UINPUT_DEVICE_MODE="${UINPUT_DEVICE_MODE:-"MKNOD"}"
-elif [ -e /dev/uinput ]; then
-  # We can create gamepads, we just need to add permissions
-  export UINPUT_DEVICE_MODE="${UINPUT_DEVICE_MODE:-"ADD_GROUP"}"
+## This is the same problem as above with the GPU. We need to remove this if the user is running
+## in privileged mode and didn't specifically request gamepad support.
+# elif [ -e /dev/uinput ]; then
+#   # We can create gamepads, we just need to add permissions
+#   export UINPUT_DEVICE_MODE="${UINPUT_DEVICE_MODE:-"ADD_GROUP"}"
 else
   # We do not have gamepad support. We should default disable it.
   export UINPUT_DEVICE_MODE="${UINPUT_DEVICE_MODE:-"NONE"}"

@@ -7,6 +7,12 @@ get_sway_config() {
   output HEADLESS-1 bg /etc/sway/background.png fill
   exec pulseaudio -v --log-level=1
   exec /wait-for-pulse.sh && wayvnc 0.0.0.0 5900
+
+  input type:mouse {
+    accel_profile \"$SWAY_MOUSE_ACCELERATION_PROFILE\"
+    pointer_accel $SWAY_MOUSE_ACCELERATION
+  }
+
   """
   if [ -n "$EXTRA_SWAY_COMMANDS" ]
   then

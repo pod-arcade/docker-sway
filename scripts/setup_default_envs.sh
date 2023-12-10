@@ -15,6 +15,8 @@ export WLR_XWAYLAND="${WLR_XWAYLAND:-"/etc/sway/Xwayland"}"
 export WLR_BACKENDS="${WLR_BACKENDS:-"headless"}"
 # Default the resolution
 export RESOLUTION="${RESOLUTION:-"1280x720"}"
+export SWAY_MOUSE_ACCELERATION="${SWAY_MOUSE_ACCELERATION:-"0.5"}"
+export SWAY_MOUSE_ACCELERATION_PROFILE="${SWAY_MOUSE_ACCELERATION_PROFILE:-"adaptive"}"
 
 # Configure how hardware acceleration is set up.
 # MKNOD — automatically regenerates device nodes using mknod
